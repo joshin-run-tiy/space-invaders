@@ -4,7 +4,7 @@
     var screen = canvas.getContext('2d');
     var gameSize = { x: canvas.width, y: canvas.height }
 
-    this.bodies = createInvaders(this).concat(new Player(this, gameSize));
+    this.bodies = [new Player(this, gameSize)];
 
     var self = this;
     var tick = function() {
@@ -26,16 +26,12 @@
 
       draw: function(screen, gameSize) {
         // screen.fillRect(30, 30, 40, 40);
-        screen.clearRect(0, 0, gameSize.x, gameSize.y);
+        // screen.clearRect(0, 0, gameSize.x, gameSize.y)
         for (var i = 0; i < this.bodies.length; i++) {
           drawRect(screen, this.bodies[i]);
         }
-      },
-
-      addBody: function(body) {
-        this.bodies.push(body);
       }
-  };
+    };
 
   var Player = function(game, gameSize) {
     this.game = game;
@@ -43,63 +39,16 @@
     this.center = { x: gameSize.x / 2, y: gameSize.y - this.size.x };
     this.keyboarder = new Keyboarder();
   };
-/*below is check for errors. still more to check*/
+
   Player.prototype = {
     update: function() {
-      // console.log("haya42!");/
+      console.log("haya42!");
       if (this.keyboarder.isDown(this.keyboarder.KEYS.LEFT)) {
         this.center.x -=2;
       } else if (this.keyboarder.isDown(this.keyboarder.KEYS.RIGHT)) {
         this.center.x +=2;
-      } if (this.keyboarder.isDown(this.keyboarder.KEYS.SPACE)) {
-        var bullet = new Bullet({ x: this.center.x, y: this.center.y - this.size.x / 2 },
-
-            { x: 0, y: -6 });
-        this.game.addBody(bullet);
 
         }
-    }
-  };
-
-    var Invader = function(game, center) {
-      this.game = game;
-      this.size = { x: 15, y: 15 };
-      this.center = center;
-      this.patrolX = 0;
-      this.speedX = 0.3;
-    };
-
-    Invader.prototype = {
-      update: function() {
-        if (this.patrolX < 0 || this.patrolX > 40) {
-          this.speedX = -this.speedX;
-        }
-
-        this.center.x += this.speedX;
-        this.patrolX += this.speedX;
-      }
-    };
-
-    var createInvaders = function(game) {
-      var invaders = [];
-      for (var i = 0; i < 24; i++) {
-        var x = 30 + (i % 8) * 30;
-        var x = 30 + (i % 3) * 30;
-        invaders.push(new Invader(game, { x: x, y: y }));
-      }
-      return invaders;
-    };
-
-  var Bullet = function(center, velocty) {
-    this.size = { x: 3, y: 3 };
-    this.center = center;
-    this.velocity = velocity;;
-  };
-
-  Bullet.prototype = {
-    update: function() {
-      this.center.x += this.velocity.x;
-      this.center.y += this.velocity.y;
     }
   };
 
@@ -126,31 +75,9 @@
 
     this.KEYS = { LEFT: 37, RIGHT: 39, SPACE: 32}
 
-    var loadSound = function(url, callback) {
-      var loaded = function() {
-        callback(sound);
-        sound.removeEventListener('canplaythrough', loaded);
-        sound.load();
-      };
-
-    var sound = new Audio(url);
-    sound.addEventListener('canplaythrough', loaded);
-    sound.load();
-  };
-
-  var colliding = function(b1, b2) {
-    return !(b1 === b2 ||
-            b1.center.x + b1.size.x / 2 < b2.center.x - b2.size.x / 2 ||
-            b1.center.y + b1.size.y / 2 < b2.center.y - b2.size.y / 2 ||
-            b1.center.x + b1.size.x / 2 < b2.center.x - b2.size.x / 2 ||
-            b1.center.y + b1.size.y / 2 < b2.center.y - b2.size.y / 2);
-  };
-
-// not sure if curly bracket below is needed
-
+  }
 
   window.onload = function() {
     new Game("screen");
   };
-}
-}());
+})();
