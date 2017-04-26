@@ -147,9 +147,10 @@
   };
 
 // not sure if curly bracket below is needed
-  
+
 
   window.onload = function() {
     new Game("screen");
   };
-})();
+}
+}());
