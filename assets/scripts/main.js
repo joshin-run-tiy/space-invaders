@@ -26,7 +26,7 @@
 
       draw: function(screen, gameSize) {
         // screen.fillRect(30, 30, 40, 40);
-        // screen.clearRect(0, 0, gameSize.x, gameSize.y)
+        screen.clearRect(0, 0, gameSize.x, gameSize.y)
         for (var i = 0; i < this.bodies.length; i++) {
           drawRect(screen, this.bodies[i]);
         }
@@ -42,7 +42,6 @@
 
   Player.prototype = {
     update: function() {
-      console.log("haya42!");
       if (this.keyboarder.isDown(this.keyboarder.KEYS.LEFT)) {
         this.center.x -=2;
       } else if (this.keyboarder.isDown(this.keyboarder.KEYS.RIGHT)) {
