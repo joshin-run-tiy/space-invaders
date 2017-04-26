@@ -4,7 +4,6 @@
     var screen = canvas.getContext('2d');
     var gameSize = { x: canvas.width, y: canvas.height }
     this.bodies = createInvaders(this).concat(new Player(this, gameSize));
-    // this.bodies = [new Player(this, gameSize)];
 
     var self = this;
     var tick = function() {
@@ -18,7 +17,13 @@
 
   Game.prototype = {
     update: function() {
-      // console.log("heya21");
+      var bodies = this.bodies;
+      var notCollidingWithAnything = function(b1) {
+        return bodies.filter(function(b2) { return colliding(b1, b2); }).length === 0;
+      };
+
+      this.bodies = this.bodies.filter(notCollidingWithAnything);
+
       for (var i = 0; i < this.bodies.length; i++) {
         this.bodies[i].update();
       }
